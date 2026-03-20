@@ -2,14 +2,14 @@ name: foss-mirror
 
 services:
   rsync:
-    image: ghcr.io/jgrancell/foss-mirror-rsync:latest
+    image: ghcr.io/jgrancell/foss-mirror/rsync:latest
     restart: unless-stopped
     volumes:
       - /mnt/user/data/foss-mirror:/srv/mirror
       - /mnt/user/appdata/foss-mirror/rsync:/config
 
   nginx:
-    image: ghcr.io/jgrancell/foss-mirror-nginx:latest
+    image: ghcr.io/jgrancell/foss-mirror/nginx:latest
     restart: unless-stopped
     ports:
       - "8888:80"

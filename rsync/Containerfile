@@ -1,4 +1,4 @@
-FROM docker.io/library/alpine:3.22
+FROM docker.io/library/alpine:3.23.3
 
 RUN addgroup -S -g 100 mirroruser \
   && adduser -S -u 99 -D -G mirroruser mirroruser
