@@ -1,0 +1,42 @@
+name: foss-mirror
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'foss-mirror/**'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        include:
+          - name: foss-mirror-rsync
+            context: foss-mirror/rsync
+          - name: foss-mirror-nginx
+            context: foss-mirror/nginx
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push ${{ matrix.name }}
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.context }}/Containerfile
+          push: true
+          tags: ghcr.io/jgrancell/${{ matrix.name }}:latest

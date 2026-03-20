@@ -1,0 +1,1 @@
+17 */6 * * * /usr/local/bin/rsync-archlinux >> /config/logs/rsync-archlinux.log 2>&1

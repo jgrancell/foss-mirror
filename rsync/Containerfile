@@ -1,0 +1,15 @@
+FROM docker.io/library/alpine:3.22
+
+RUN addgroup -S -g 100 mirroruser \
+  && adduser -S -u 99 -D -G mirroruser mirroruser
+
+RUN apk add --no-cache rsync bash curl openssl cronie \
+  && mkdir -p /srv/mirror \
+  && chown -R mirroruser:mirroruser /srv/mirror
+
+COPY rsync-archlinux.sh /usr/local/bin/rsync-archlinux
+COPY --chmod=0600 crontab-mirroruser /etc/crontabs/mirroruser
+
+RUN chmod +x /usr/local/bin/rsync-archlinux
+
+ENTRYPOINT ["crond", "-n"]
