@@ -5,7 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'foss-mirror/**'
+      - 'nginx/**'
+      - 'rsync/**'
 
 jobs:
   build-and-push:
